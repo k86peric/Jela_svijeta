@@ -11,20 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('slug');
         });
 
-        Schema::create('category_translations', function (Blueprint $table) {
+        Schema::create('tag_translations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('category_id');
+            $table->integer('tag_id')->unsigned();
             $table->string('locale')->index();
 
             $table->string('title');
 
-            $table->unique(['category_id', 'locale']);
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->unique(['tag_id', 'locale']);
+            $table->foreignId('tag_id')->constrained('tags')->onDelete('cascade');
         });
     }
 
@@ -33,7 +33,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
-        Schema::dropIfExists('category_translations');
+        Schema::dropIfExists('tags');
+        Schema::dropIfExists('tag_translations');
     }
 };

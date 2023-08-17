@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
         });
 
         Schema::create('meal_translations', function (Blueprint $table) {
@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('description');
 
             $table->unique(['meal_id', 'locale']);
-            $table->foreign('meal_id')->references('id')->on('meals')->onDelete('cascade');
+            $table->foreignId('meal_id')->constrained('meals')->onDelete('cascade');
         });
     }
 
