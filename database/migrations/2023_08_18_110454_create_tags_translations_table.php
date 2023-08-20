@@ -11,20 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table) {
-            $table->id();
-            $table->string('slug');
-        });
-
         Schema::create('tag_translations', function (Blueprint $table) {
             $table->id();
-            $table->integer('tag_id')->unsigned();
-            $table->string('locale')->index();
-
+            $table->unsignedBigInteger('tag_id');
+            $table->string('locale');
             $table->string('title');
-
-            $table->unique(['tag_id', 'locale']);
-            $table->foreignId('tag_id')->constrained('tags')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -33,7 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tags');
-        Schema::dropIfExists('tag_translations');
+        Schema::dropIfExists('tags_translations');
     }
 };
