@@ -27,12 +27,14 @@ class MealController extends Controller
         $tags = $request->input('tags');
         
 
-        if (empty($category) && empty($tags) && empty($tagIds) && empty($lang) && empty($diffTime) && empty($with)) {
+        if (empty($category) && empty($tags) && empty($tagIds) && empty($diffTime) && empty($with)) {
             
-            $meals = $this->mealRepository->getAllMeals();
+            $meals = $this->mealRepository->getAllMeals($lang)->paginate($perPage);
+            $meals->setPath(url()->current() . '?lang=' . $lang);
         } else {
             
-            $meals = $this->mealRepository->getFilteredMeals($perPage, $category, $tags, $tagIds, $lang, $diffTime, $with);
+            $meals = $this->mealRepository->getFilteredMeals($category, $tags, $tagIds, $lang, $diffTime, $with)->paginate($perPage);
+            $meals->setPath(url()->current() . '?lang=' . $lang);
         }
 
         $response = [
